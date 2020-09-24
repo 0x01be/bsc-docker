@@ -1,0 +1,94 @@
+diff --git src/vendor/stp/src/sat/core/Main.cc src/vendor/stp/src/sat/core/Main.cc
+index 0397ea9..35f9dd1 100644
+--- src/vendor/stp/src/sat/core/Main.cc
++++ src/vendor/stp/src/sat/core/Main.cc
+@@ -74,11 +74,6 @@ int main(int argc, char** argv)
+         setUsageHelp("USAGE: %s [options] <input-file> <result-output-file>\n\n  where input may be either in plain or gzipped DIMACS.\n");
+         // printf("This is MiniSat 2.0 beta\n");
+         
+-#if defined(__linux__)
+-        fpu_control_t oldcw, newcw;
+-        _FPU_GETCW(oldcw); newcw = (oldcw & ~_FPU_EXTENDED) | _FPU_DOUBLE; _FPU_SETCW(newcw);
+-        printf("WARNING: for repeatability, setting FPU to use double precision\n");
+-#endif
+         // Extra options:
+         //
+         IntOption    verb   ("MAIN", "verb",   "Verbosity level (0=silent, 1=some, 2=more).", 1, IntRange(0, 2));
+diff --git src/vendor/stp/src/sat/cryptominisat2/Main.cpp src/vendor/stp/src/sat/cryptominisat2/Main.cpp
+index 3939611..9c37c4d 100644
+--- src/vendor/stp/src/sat/cryptominisat2/Main.cpp
++++ src/vendor/stp/src/sat/cryptominisat2/Main.cpp
+@@ -47,10 +47,6 @@ using std::cout;
+ using std::endl;
+ 
+ /*************************************************************************************/
+-#if defined(__linux__)
+-#include <fpu_control.h>
+-#endif
+-
+ using namespace MINISAT;
+ 
+ namespace MINISAT
+@@ -746,13 +742,7 @@ int main(int argc, char** argv)
+ 
+     if (S.verbosity >= 1)
+         printf("c This is CryptoMiniSat %s\n", VERSION);
+-#if defined(__linux__)
+-    fpu_control_t oldcw, newcw;
+-    _FPU_GETCW(oldcw);
+-    newcw = (oldcw & ~_FPU_EXTENDED) | _FPU_DOUBLE;
+-    _FPU_SETCW(newcw);
+-    if (S.verbosity >= 1) printf("c WARNING: for repeatability, setting FPU to use double precision\n");
+-#endif
++
+     double cpu_time = cpuTime();
+ 
+     solver = &S;
+diff --git src/vendor/stp/src/sat/cryptominisat2/time_mem.h src/vendor/stp/src/sat/cryptominisat2/time_mem.h
+index f923c9a..a66d927 100644
+--- src/vendor/stp/src/sat/cryptominisat2/time_mem.h
++++ src/vendor/stp/src/sat/cryptominisat2/time_mem.h
+@@ -76,10 +76,6 @@ static inline uint64_t memUsed(void) {
+ static inline uint64_t memUsed() { return 0; }
+ #endif
+ 
+-#if defined(__linux__)
+-#include <fpu_control.h>
+-#endif
+-
+ };
+ 
+ #endif //TIME_MEM_H
+diff --git src/vendor/stp/src/sat/simp/Main.cc src/vendor/stp/src/sat/simp/Main.cc
+index 10bc622..aebb37b 100644
+--- src/vendor/stp/src/sat/simp/Main.cc
++++ src/vendor/stp/src/sat/simp/Main.cc
+@@ -72,13 +72,6 @@ int main(int argc, char** argv)
+ {
+     try {
+         setUsageHelp("USAGE: %s [options] <input-file> <result-output-file>\n\n  where input may be either in plain or gzipped DIMACS.\n");
+-        // printf("This is MiniSat 2.0 beta\n");
+-        
+-#if defined(__linux__)
+-        fpu_control_t oldcw, newcw;
+-        _FPU_GETCW(oldcw); newcw = (oldcw & ~_FPU_EXTENDED) | _FPU_DOUBLE; _FPU_SETCW(newcw);
+-        printf("WARNING: for repeatability, setting FPU to use double precision\n");
+-#endif
+         // Extra options:
+         //
+         IntOption    verb   ("MAIN", "verb",   "Verbosity level (0=silent, 1=some, 2=more).", 1, IntRange(0, 2));
+diff --git src/vendor/stp/src/sat/utils/System.h src/vendor/stp/src/sat/utils/System.h
+index 72f4aa3..666c8d4 100644
+--- src/vendor/stp/src/sat/utils/System.h
++++ src/vendor/stp/src/sat/utils/System.h
+@@ -21,10 +21,6 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
+ #ifndef Minisat_System_h
+ #define Minisat_System_h
+ 
+-#if defined(__linux__)
+-#include <fpu_control.h>
+-#endif
+-
+ #include "../mtl/IntTypesMtl.h"
+ 
+ //-------------------------------------------------------------------------------------------------
