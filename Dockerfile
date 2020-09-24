@@ -15,7 +15,8 @@ RUN apk add --no-cache --virtual bsc-build-dependencies \
     flex \
     gperf \
     tcl-dev \
-    wget
+    wget \
+    bash
 
 RUN cabal v1-install old-time regex-compat syb split
 
