@@ -18,7 +18,12 @@ RUN apk add --no-cache --virtual bsc-build-dependencies \
     wget \
     bash
 
-RUN cabal v1-install old-time regex-compat syb split
+RUN cabal update
+RUN cabal v1-install \
+    old-time \
+    regex-compat \
+    syb \
+    split
 
 ENV BSC_REVISION master
 RUN git clone --recursive --branch ${BSC_REVISION} https://github.com/B-Lang-org/bsc.git /bsc
