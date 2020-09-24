@@ -1,37 +1,17 @@
-FROM 0x01be/iverilog as iverilog
+FROM 0x01be/bsc:build as build
 
-FROM 0x01be/haskell as builder
+FROM alpine
 
-COPY --from=iverilog /opt/iverilog/ /opt/iverilog/
+COPY --from=build /opt/iverilog/ /opt/iverilog/
+COPY --from=build /opt/bsc/ /opt/bsc/
 
-ENV PATH $PATH:/opt/iverilog/bin/
+ENV PATH $PATH:/opt/iverilog/bin/:/opt/bsc/bin/
 
-RUN apk add --no-cache --virtual bsc-build-dependencies \
-    git \
-    build-base \
-    autoconf \
-    ccache \
-    bison \
-    flex \
-    gperf \
-    tcl-dev \
-    wget \
-    bash
+RUN apk add --no-cache --virtual bsc-runtime-dependencies \
+    tcl \
+    bash \
+    gmp \
+    libstdc++
 
-RUN cabal update
-RUN cabal v1-install \
-    old-time \
-    regex-compat \
-    syb \
-    split
-
-ENV BSC_REVISION master
-RUN git clone --recursive --branch ${BSC_REVISION} https://github.com/B-Lang-org/bsc.git /bsc
-
-COPY 0001-Disable-fpu_control.patch /bsc/
-
-WORKDIR /bsc
-RUN patch -p0 < 0001-Disable-fpu_control.patch
-
-RUN make PREFIX=/opt/bsc/ install all check
+WORKDIR /workspace
 
