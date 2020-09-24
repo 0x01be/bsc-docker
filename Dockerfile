@@ -33,5 +33,5 @@ COPY 0001-Disable-fpu_control.patch /bsc/
 WORKDIR /bsc
 RUN patch -p0 < 0001-Disable-fpu_control.patch
 
-RUN make install
+RUN make PREFIX=/opt/bsc/ install all check
 
