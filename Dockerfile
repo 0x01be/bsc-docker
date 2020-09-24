@@ -4,6 +4,8 @@ FROM alpine
 
 COPY --from=build /opt/iverilog/ /opt/iverilog/
 COPY --from=build /opt/bsc/ /opt/bsc/
+COPY --from=build /bsc/src/vendor/yices/v2.6/yices2-inst/lib/* /usr/lib/
+COPY --from=build /bsc/src/vendor/stp/lib/* /usr/lib/
 
 ENV PATH $PATH:/opt/iverilog/bin/:/opt/bsc/bin/
 
